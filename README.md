@@ -74,3 +74,7 @@ Vanilla JavaScript, HTML Canvas, ES Modules. No dependencies, no build step.
 ## Notes
 
 I can only play Silksong once a week, and only 1-2 hours on my friend's PC so I need to practice before playing it to reduce time wasted — so, don't expect good practice or code hygiene here.
+
+## Disclaimer
+
+This is an unofficial fan-made project inspired by Hollow Knight: Silksong by Team Cherry. It is not affiliated with, endorsed by, or connected to Team Cherry in any way. No original assets from Hollow Knight or Silksong are used. This project is non-commercial and made purely for practice.
