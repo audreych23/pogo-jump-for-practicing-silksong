@@ -13,6 +13,7 @@ import { DeathScreen } from './screens/death.js';
 import { SettingsScreen } from './screens/settings.js';
 import { LeaderboardScreen } from './screens/leaderboard.js';
 import { GachaScreen } from './screens/gacha.js';
+import { Background } from './background.js';
 
 const canvas = document.getElementById('game');
 const ctx = canvas.getContext('2d');
@@ -28,6 +29,7 @@ const sprites = new SpriteManager(storage);
 const particles = new ParticleSystem();
 const camera = new Camera();
 const ui = new UIManager();
+const bg = new Background();
 const player = new Player();
 const balls = new BallManager();
 
@@ -110,7 +112,8 @@ input.onClick = (mx, my) => {
 
 function update() {
   if (state === 'play') {
-    const result = gameScreen.update(player, balls, particles, camera, input, storage);
+    const fc = bg.getFlowerColors(camera.y);
+    const result = gameScreen.update(player, balls, particles, camera, input, storage, fc);
     if (result) {
       if (result.scored) score++;
       if (result.died) handleDeath();
@@ -123,15 +126,14 @@ function update() {
 }
 
 function draw() {
-  const scrollSource = state === 'title' || state === 'settings' || state === 'leaderboard' || state === 'gacha'
-    ? Date.now() * 0.02
-    : camera.y;
-  ui.drawBackground(ctx, scrollSource);
+  const isMenu = state !== 'play' && state !== 'dead';
+  bg.draw(ctx, camera.y, isMenu);
 
   if (state === 'title') {
     titleScreen.draw(ctx, ui, storage.highScore, storage.coins, input);
   } else if (state === 'play' || state === 'dead') {
-    gameScreen.draw(ctx, player, balls, particles, sprites, camera, score, storage.coins);
+    const flowerColors = bg.getFlowerColors(camera.y);
+    gameScreen.draw(ctx, player, balls, particles, sprites, camera, score, storage.coins, flowerColors);
     if (state === 'dead') {
       deathScreen.draw(ctx, score, storage.highScore, isNewBest);
     }

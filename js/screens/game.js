@@ -11,7 +11,7 @@ export class GameScreen {
     this.flashTimer = 0;
   }
 
-  update(player, balls, particles, camera, input, storage) {
+  update(player, balls, particles, camera, input, storage, flowerColors) {
     player.update(input);
     let result = null;
 
@@ -28,7 +28,7 @@ export class GameScreen {
     }
 
     // ball collision
-    const hitBall = balls.checkCollision(player, particles, storage);
+    const hitBall = balls.checkCollision(player, particles, storage, flowerColors);
     if (hitBall) {
       this.flashTimer = 8;
       result = { scored: true, isCoin: hitBall.type === 'coin' };
@@ -57,7 +57,7 @@ export class GameScreen {
     return result;
   }
 
-  draw(ctx, player, balls, particles, sprites, camera, score, coins) {
+  draw(ctx, player, balls, particles, sprites, camera, score, coins, flowerColors) {
     const cy = camera.y;
 
     if (this.flashTimer > 4) {
@@ -75,7 +75,7 @@ export class GameScreen {
       ctx.fillRect(plat.x - plat.w / 2 + 2, sy - 4, plat.w - 4, 3);
     }
 
-    balls.draw(ctx, cy);
+    balls.draw(ctx, cy, flowerColors);
     particles.draw(ctx, cy);
     player.draw(ctx, sprites, cy);
 
